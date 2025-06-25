@@ -8,7 +8,7 @@ class NumericalIntegrator {
             double delta_x = (b - a) / n;
             double sum = 0;
 
-            for(double i = 0; i < n; i++) {
+            for(int i = 0; i < n; i++) {
                 sum += f(a + (delta_x * i));
             }
             sum = sum * delta_x;
@@ -18,12 +18,12 @@ class NumericalIntegrator {
 
         double trapezoidalRule(const std::function<double(double)>& f, double a, double b, int n) {
             double delta_x = (b - a) / n;
-            double sum = 0;
+            double sum = 0.5 * (f(a) + f(b));
 
-            for(double i = 0; i < n; i++) {
+            for(int i = 1; i < n; i++) {
                 sum += f(a + (delta_x * i));
             }
-            sum = sum * 0.5 * delta_x;
+            sum = sum * delta_x;
 
             return sum;
         }
@@ -41,6 +41,8 @@ int main() {
 
     double result = integrator.rectangleRule(testFunction, 0.0, 1.0, 1000000000);
     cout << "Rectangle rule result: " << result << endl;
+    result = integrator.trapezoidalRule(testFunction, 0.0, 1.0, 1000000000);
+    cout << "Trapezoidal rule result: " << result;
 
     return 0;
 }
