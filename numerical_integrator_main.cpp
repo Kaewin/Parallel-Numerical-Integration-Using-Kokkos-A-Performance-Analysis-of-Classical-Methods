@@ -1,7 +1,27 @@
 #include <iostream>
 #include <functional>
 #include <chrono>
+#include <cmath>
 using namespace std;
+
+namespace TestFunctions {
+    double polynomial(double x) {
+        return x * x;
+    }
+    double trignonometric(double x) {
+        return sin(x);
+    }
+    double exponential(double x) {
+        return exp(x);
+    }
+}
+
+struct TestCase {
+    function<double(double)> func;
+    double a, b;
+    double expected;
+    string name;
+};
 
 enum Method {
     RECTANGLE,
@@ -12,8 +32,6 @@ struct BenchmarkResult {
     double result;
     double timeMs;
 };
-
-
 
 class NumericalIntegrator {
     public:
@@ -53,7 +71,6 @@ class NumericalIntegrator {
         }   
 
         BenchmarkResult benchmark(const std::function<double(double)>& f, double a, double b, int n, Method method) {
-
             auto start = chrono::high_resolution_clock::now();
 
             double result = integrate(f, a, b, n, method);
@@ -65,6 +82,29 @@ class NumericalIntegrator {
 
             return {result, timeMs};
         }
+
+        void runTests() {
+            vector<TestCase> tests = { 
+                {TestFunctions::polynomial, 0.0, 1.0, 1.0/3.0, "x^2"},
+                {TestFunctions::trignonometric, 0.0, M_PI, 2.0, "sin(x)"} 
+            };
+
+            // Loop through each test case
+            for (const TestCase& test : tests) {
+                std::cout << "\n--- Testing function: " << test.name << " ---" << std::endl;
+                std::cout << "Expected result: " << test.expected << std::endl;
+                
+                // Test rectangle rule
+                auto rectResult = benchmark(test.func, test.a, test.b, 10000, RECTANGLE);
+                std::cout << "Rectangle: " << rectResult.result << " (Error: " 
+                        << std::abs(rectResult.result - test.expected) << ")" << std::endl;
+                
+                // Test trapezoidal rule  
+                auto trapResult = benchmark(test.func, test.a, test.b, 10000, TRAPEZOIDAL);
+                std::cout << "Trapezoidal: " << trapResult.result << " (Error: " 
+                        << std::abs(trapResult.result - test.expected) << ")" << std::endl;
+            }
+        }   
 };
 
 double testFunction(double x) { 
@@ -77,13 +117,15 @@ int main() {
     // Test: integrate x^2 from 0 to 1
     // Answer should be 0.333333
 
-    auto benchmark_result1 = integrator.benchmark(testFunction, 0.0, 1.0, 100000000, RECTANGLE);
-    cout << "Result: " << benchmark_result1.result << endl;
-    cout << "Time: " << benchmark_result1.timeMs << " ms" << endl;
+    // auto benchmark_result1 = integrator.benchmark(testFunction, 0.0, 1.0, 100000000, RECTANGLE);
+    // cout << "Result: " << benchmark_result1.result << endl;
+    // cout << "Time: " << benchmark_result1.timeMs << " ms" << endl;
 
-    auto benchmark_result2 = integrator.benchmark(testFunction, 0.0, 1.0, 100000000, TRAPEZOIDAL);
-    cout << "Result: " << benchmark_result2.result << endl;
-    cout << "Time: " << benchmark_result2.timeMs << " ms" << endl;
+    // auto benchmark_result2 = integrator.benchmark(testFunction, 0.0, 1.0, 100000000, TRAPEZOIDAL);
+    // cout << "Result: " << benchmark_result2.result << endl;
+    // cout << "Time: " << benchmark_result2.timeMs << " ms" << endl;
+
+    integrator.runTests();
 
     return 0;
 }
