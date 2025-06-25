@@ -15,6 +15,18 @@ class NumericalIntegrator {
 
             return sum;
         }
+
+        double trapezoidalRule(const std::function<double(double)>& f, double a, double b, int n) {
+            double delta_x = (b - a) / n;
+            double sum = 0;
+
+            for(double i = 0; i < n; i++) {
+                sum += f(a + (delta_x * i));
+            }
+            sum = sum * 0.5 * delta_x;
+
+            return sum;
+        }
 };
 
 double testFunction(double x) { 
