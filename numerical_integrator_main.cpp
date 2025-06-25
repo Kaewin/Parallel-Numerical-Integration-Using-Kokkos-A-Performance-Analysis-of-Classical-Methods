@@ -2,6 +2,7 @@
 #include <functional>
 #include <chrono>
 #include <cmath>
+#include <Kokkos_Core.hpp>
 using namespace std;
 
 namespace TestFunctions {
@@ -86,7 +87,8 @@ class NumericalIntegrator {
         void runTests() {
             vector<TestCase> tests = { 
                 {TestFunctions::polynomial, 0.0, 1.0, 1.0/3.0, "x^2"},
-                {TestFunctions::trignonometric, 0.0, M_PI, 2.0, "sin(x)"} 
+                {TestFunctions::trignonometric, 0.0, M_PI, 2.0, "sin(x)"},
+                {TestFunctions::exponential, }
             };
 
             // Loop through each test case
@@ -96,13 +98,11 @@ class NumericalIntegrator {
                 
                 // Test rectangle rule
                 auto rectResult = benchmark(test.func, test.a, test.b, 10000, RECTANGLE);
-                std::cout << "Rectangle: " << rectResult.result << " (Error: " 
-                        << std::abs(rectResult.result - test.expected) << ")" << std::endl;
+                std::cout << "Rectangle: " << rectResult.result << " (Error: " << std::abs(rectResult.result - test.expected) << ")" << std::endl;
                 
                 // Test trapezoidal rule  
                 auto trapResult = benchmark(test.func, test.a, test.b, 10000, TRAPEZOIDAL);
-                std::cout << "Trapezoidal: " << trapResult.result << " (Error: " 
-                        << std::abs(trapResult.result - test.expected) << ")" << std::endl;
+                std::cout << "Trapezoidal: " << trapResult.result << " (Error: " << std::abs(trapResult.result - test.expected) << ")" << std::endl;
             }
         }   
 };
