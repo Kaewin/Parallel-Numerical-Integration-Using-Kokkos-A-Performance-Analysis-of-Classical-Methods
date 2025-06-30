@@ -20,7 +20,8 @@ namespace TestFunctions {
 
 enum Method {
     RECTANGLE,
-    TRAPEZOIDAL
+    TRAPEZOIDAL,
+    SIMPSON
 };
 
 struct BenchmarkResult {
@@ -35,4 +36,5 @@ class NumericalIntegrator {
     private:
         double rectanglerule(const std::function<double(double)>& f, double a, double b, long long n) const;
         double trapezoidalrule(const std::function<double(double)>& f, double a, double b, long long n) const;
+        double simpson(const std::function<double(double)>& f, double a, double b, long long n) const;
 };
