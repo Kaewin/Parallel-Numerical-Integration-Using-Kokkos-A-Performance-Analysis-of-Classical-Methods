@@ -1,6 +1,6 @@
 #include "headers.hpp"
 
-const double NumericalIntegrator::rectanglerule(const function<double(double)>& f, double a, double b, long long n) {
+double NumericalIntegrator::rectanglerule(const std::function<double(double)>& f, double a, double b, long long n) const {
 
     if (n <= 0) {
         throw std::invalid_argument("Number of intervals must be positive");
@@ -12,7 +12,7 @@ const double NumericalIntegrator::rectanglerule(const function<double(double)>& 
     double delta_x = (b - a) / n;
     double sum = 0;
 
-    for(int i = 0; i < n; i++) {
+    for(long long i = 0; i < n; i++) {
         sum += f(a + (delta_x * i));
     }
     sum = sum * delta_x;
@@ -20,7 +20,7 @@ const double NumericalIntegrator::rectanglerule(const function<double(double)>& 
     return sum;
 }
 
-const double NumericalIntegrator::trapezoidalrule(const std::function<double(double)>& f, double a, double b, long long n) {
+double NumericalIntegrator::trapezoidalrule(const std::function<double(double)>& f, double a, double b, long long n) const {
 
     if (n <= 0) {
         throw std::invalid_argument("Number of intervals must be positive");
@@ -32,7 +32,7 @@ const double NumericalIntegrator::trapezoidalrule(const std::function<double(dou
     double delta_x = (b - a) / n;
     double sum = 0.5 * (f(a) + f(b));
 
-    for(int i = 1; i < n; i++) {
+    for(long long i = 1; i < n; i++) {
         sum += f(a + (delta_x * i));
     }
     sum = sum * delta_x;
@@ -40,14 +40,7 @@ const double NumericalIntegrator::trapezoidalrule(const std::function<double(dou
     return sum;
 }
 
-const double NumericalIntegrator::integrate(const std::function<double(double)>& f, double a, double b, long long n, Method method) {
-
-    if (n <= 0) {
-        throw std::invalid_argument("Number of intervals must be positive");
-    }
-    if (a >= b) {
-        throw std::invalid_argument("Lower bound must be less than upper bound");
-    }
+double NumericalIntegrator::integrate(const std::function<double(double)>& f, double a, double b, long long n, Method method) const {
 
     switch (method) {
         case RECTANGLE:

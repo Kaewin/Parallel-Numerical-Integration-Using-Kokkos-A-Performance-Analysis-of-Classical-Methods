@@ -8,4 +8,4 @@ g++ -std=c++17 -O3 -fopenmp \
   -L/home/kaelyn/kokkos_install/lib \
   -lkokkoscore -lkokkoscontainers -lkokkosalgorithms -lkokkossimd \
   -ldl -lpthread \
-  numerical_integrator_main.cpp -o integrator
+  main.cpp numerical_integrator_main.cpp -o integrator

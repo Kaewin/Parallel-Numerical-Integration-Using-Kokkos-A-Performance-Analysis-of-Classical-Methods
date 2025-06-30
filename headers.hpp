@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <functional>
 #include <vector>
@@ -6,13 +7,13 @@
 //#include <Kokkos_Core.hpp>
 
 namespace TestFunctions {
-    double polynomial(double x) {
+    inline double polynomial(double x) {
         return x * x;
     }
-    double trigonometric(double x) {
+    inline double trigonometric(double x) {
         return sin(x);
     }
-    double exponential(double x) {
+    inline double exponential(double x) {
         return exp(x);
     }
 }
@@ -29,9 +30,9 @@ struct BenchmarkResult {
 
 class NumericalIntegrator {
     public:
-        const double integrate(const std::function<double(double)>& f, double a, double b, long long n, Method method);
+        double integrate(const std::function<double(double)>& f, double a, double b, long long n, Method method) const;
         BenchmarkResult benchmark(const std::function<double(double)>& f, double a, double b, long long n, Method method);
     private:
-        const double rectanglerule(const std::function<double(double)>& f, double a, double b, long long n);
-        const double trapezoidalrule(const std::function<double(double)>& f, double a, double b, long long n);
+        double rectanglerule(const std::function<double(double)>& f, double a, double b, long long n) const;
+        double trapezoidalrule(const std::function<double(double)>& f, double a, double b, long long n) const;
 };
