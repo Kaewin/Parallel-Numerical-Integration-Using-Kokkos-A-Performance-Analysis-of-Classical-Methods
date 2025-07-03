@@ -24,17 +24,21 @@ namespace TestFunctions {
     // Kokkos Functors
     struct Polynomial {
         KOKKOS_INLINE_FUNCTION
+        // https://kokkos.org/kokkos-core-wiki/ProgrammingGuide/ParallelDispatch.html
+        // https://kokkos.org/kokkos-core-wiki/API/core/macros-special/host_device_macros.html#kokkos-inline-function
         double operator()(double x) const { return x * x; }
     };
 
     struct Trigonometric {
         KOKKOS_INLINE_FUNCTION
         double operator()(double x) const { return Kokkos::sin(x); }
+        // https://kokkos.org/kokkos-core-wiki/API/core/numerics/mathematical-functions.html
     };
 
     struct Exponential {
         KOKKOS_INLINE_FUNCTION
         double operator()(double x) const { return Kokkos::exp(x); }
+        // https://kokkos.org/kokkos-core-wiki/API/core/numerics/mathematical-functions.html
     };
 }
 
