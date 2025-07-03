@@ -3,7 +3,7 @@
 Compile using kokkos:
 
 
-g++ -std=c++17 -O3 -fopenmp \
+g++ -std=c++23 -O3 -fopenmp \
   -I/home/kaelyn/kokkos_install/include \
   -L/home/kaelyn/kokkos_install/lib \
   -lkokkoscore -lkokkoscontainers -lkokkosalgorithms -lkokkossimd \

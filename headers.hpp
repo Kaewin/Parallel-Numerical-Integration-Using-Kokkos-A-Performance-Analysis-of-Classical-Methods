@@ -20,6 +20,22 @@ namespace TestFunctions {
     inline double exponential(double x) {
         return exp(x);
     }
+
+    // Kokkos Functors
+    struct Polynomial {
+        KOKKOS_INLINE_FUNCTION
+        double operator()(double x) const { return x * x; }
+    };
+
+    struct Trigonometric {
+        KOKKOS_INLINE_FUNCTION
+        double operator()(double x) const { return Kokkos::sin(x); }
+    };
+
+    struct Exponential {
+        KOKKOS_INLINE_FUNCTION
+        double operator()(double x) const { return Kokkos::exp(x); }
+    };
 }
 
 enum Method {
