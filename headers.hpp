@@ -51,14 +51,36 @@ enum Method {
 struct BenchmarkResult {
     double result;
     double timeMs;
+    std::string version = "Serial"; // Added version tracking
 };
 
 class NumericalIntegrator {
     public:
         double integrate(const std::function<double(double)>& f, double a, double b, long long n, Method method) const;
         BenchmarkResult benchmark(const std::function<double(double)>& f, double a, double b, long long n, Method method);
+
+        // New Kokkos methods
+        template<typename FunctorType>
+        double integrateParallel(FunctorType func, double a, double b, long long n, Method method) const;
+
+        template<typename FunctorType>
+        BenchmarkResult benchmarkParallel(FunctorType func, double a, double b, long long n, Method method);
+
+        // Comparison method
+        void compareSerialVsParallel(double a, double b, long long n, Method method);
+
     private:
         double rectanglerule(const std::function<double(double)>& f, double a, double b, long long n) const;
         double trapezoidalrule(const std::function<double(double)>& f, double a, double b, long long n) const;
         double simpson(const std::function<double(double)>& f, double a, double b, long long n) const;
+
+        // New Kokkos methods
+        template<typename FunctorType>
+        double rectangleRuleParallel(FunctorType func, double a, double b, long long n) const;
+
+        template<typename FunctorType>
+        double trapezoidalRuleParallel(FunctorType func, double a, double b, long long n) const;
+
+        template<typename FunctorType>
+        double simpsonParallel(FunctorType func, double a, double b, long long n) const;
 };
