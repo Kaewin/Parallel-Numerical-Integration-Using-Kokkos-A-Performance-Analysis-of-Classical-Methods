@@ -43,5 +43,9 @@ int main(int argc, char* argv[]) {
     std::cout << "Result: " << benchmark_result9.result << std::endl;
     std::cout << "Time: " << benchmark_result9.timeMs << " ms" << std::endl;
 
-    return 0;
+
+
+    std::cout << "=== Kokkos Numerical Integration Demo ===" << std::endl;
+    std::cout << "Hardware threads: " << std::thread::hardware_concurrency() << std::endl;
+    std::cout << "Execution space: " << typeid(Kokkos::DefaultExecutionSpace).name() << std::endl;
 }

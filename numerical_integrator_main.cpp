@@ -98,7 +98,7 @@ BenchmarkResult NumericalIntegrator::benchmark(const std::function<double(double
 // Parallel Functions
 
 template <typename FunctorType>
-double NumericalIntegrator::rectangleRuleParallel(FunctorType funct, double a, double b, long long n) const {
+double NumericalIntegrator::rectangleRuleParallel(FunctorType func, double a, double b, long long n) const {
     if (n <= 0) {
         throw std::invalid_argument("Number of intervals must be positive.");
     }
@@ -164,9 +164,9 @@ template<typename FunctorType>
 double NumericalIntegrator::integrateParallel(FunctorType func, double a, double b, long long n, Method method) const {
     switch (method) {
         case RECTANGLE:
-            return rectangleruleParallel(func, a, b, n);
+            return rectangleRuleParallel(func, a, b, n);
         case TRAPEZOIDAL:
-            return trapezoidalruleParallel(func, a, b, n);
+            return trapezoidalRuleParallel(func, a, b, n);
         case SIMPSON:
             return simpsonParallel(func, a, b, n);
         default:
