@@ -4,6 +4,7 @@
 int main(int argc, char* argv[]) {
     
     Kokkos::initialize(argc, argv);
+    // https://kokkos.org/kokkos-core-wiki/ProgrammingGuide/Initialization.html
     NumericalIntegrator integrator;
     
     auto benchmark_result1 = integrator.benchmark(TestFunctions::polynomial, 0.0, 1.0, 50, RECTANGLE);

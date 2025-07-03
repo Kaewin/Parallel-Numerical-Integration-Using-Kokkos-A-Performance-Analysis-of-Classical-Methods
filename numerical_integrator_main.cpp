@@ -94,3 +94,22 @@ BenchmarkResult NumericalIntegrator::benchmark(const std::function<double(double
 
     return {result, timeMs};
 }
+
+// Parallel Functions
+
+template <typename FunctorType>
+double NumericalIntegrator::rectangleRuleParallel(FunctorType funct, double a, double b, long long n) const {
+    if (n <= 0) {
+        throw std::invalid_argument("Number of intervals must be positive.");
+    }
+    if (a > b) {
+        throw std::invalid_argument("Lower bound must be less than upper bound.");
+    }
+
+    double h = (b - a) / n;
+    double result = 0.0;
+
+    // Using Kokkos Parallel Reduction
+    // https://kokkos.org/kokkos-core-wiki/ProgrammingGuide/ParallelDispatch.html#parallel-reduce
+    Kokkos::parallel_reduce("Rectangle Rule Parallel", Kokkos::RangePolicy<>(0, n), KOKKOS_LAMBDA(const long long i, double& local_sum) { double x = a + i * h; local_sum += func(x); } result );
+}
