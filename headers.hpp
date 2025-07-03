@@ -4,7 +4,11 @@
 #include <vector>
 #include <chrono>
 #include <cmath>
-//#include <Kokkos_Core.hpp>
+
+// These three have been added on in order to run with Kokkos.
+#include <thread>
+#include <iomanip>
+#include <Kokkos_Core.hpp>
 
 namespace TestFunctions {
     inline double polynomial(double x) {
