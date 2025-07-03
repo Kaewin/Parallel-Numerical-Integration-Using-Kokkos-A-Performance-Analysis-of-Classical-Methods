@@ -1,7 +1,9 @@
 #include "headers.hpp"
 #include <numbers>
 
-int main() {
+int main(int argc, char* argv[]) {
+    
+    Kokkos::initialize(argc, argv);
     NumericalIntegrator integrator;
     
     auto benchmark_result1 = integrator.benchmark(TestFunctions::polynomial, 0.0, 1.0, 50, RECTANGLE);
